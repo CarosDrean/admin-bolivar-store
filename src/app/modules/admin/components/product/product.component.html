@@ -1,0 +1,147 @@
+<app-breadcumb>
+  <div role="title">Lista de Carreras</div>
+  <div role="list">
+    <ol role="list" class="breadcrumb m-0 p-0">
+      <li class="breadcrumb-item"><a routerLink="dashboard" class="text-muted">Inicio</a></li>
+      <li class="breadcrumb-item text-muted active" aria-current="page">Producto</li>
+    </ol>
+  </div>
+</app-breadcumb>
+
+<app-table>
+  <div role="btn">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form-user" (click)="clean()"
+      style="margin: 20px;">
+      Agregar
+    </button>
+  </div>
+  <div role="table">
+    <table class="table">
+      <thead class="bg-success text-white">
+        <tr>
+          <th>#</th>
+          <th>Nombres</th>
+          <th>Precio</th>
+          <th>Estado</th>
+          <th>Categoria</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of (items | async); let i = index" [attr.data-index]="i">
+          <td>{{i}}</td>
+          <td>{{item.name}}</td>
+          <td>{{item.price}}</td>
+          <td>{{item.state}}</td>
+          <td *ngIf="item.category != null">{{item.category.name}}</td>
+          <td *ngIf="item.category == null">No asignado</td>
+          <td>
+            <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-success"
+              (click)="edit(item)" data-toggle="modal" data-target="#form-user" style="margin-right: 5px;">
+              Editar
+            </button>
+            <button type="button" (click)="getKeyForDelete(item._id)"
+              class="btn waves-effect waves-light btn-rounded btn-sm btn-danger" [swal]="deleteSwal">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-table>
+
+<swal #deleteSwal title="¿Estas seguro?" text="Los datos no se podran recuperar." icon="question"
+  [showCancelButton]="true" [focusCancel]="true" (cancel)="clean()" (confirm)="deleteItem()">
+</swal>
+
+<div id="form-user" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{{case}} Producto</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="product_image_area">
+          <div class="container">
+            <div class="row s_product_inner">
+              <div class="col-lg-6">
+                <div class="owl-carousel owl-theme s_Product_carousel">
+                  <div *ngIf="img" class="single-prd-item">
+                    <img class="img-fluid" style="min-width: 100%; margin-top: 50px;" src="{{img | async}}" alt="">
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-5 offset-lg-1">
+                <div class="s_product_text">
+                  <form action="#">
+                    <div class="form-group">
+                      <label for="name">Nombre</label>
+                      <input class="form-control" type="text" id="name" required="" name="name" [(ngModel)]="item.name"
+                        placeholder="Nombre">
+                    </div>
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Imagen</span>
+                      </div>
+                      <div class="custom-file">
+                        <input type="file" accept=".jpg, .png" class="custom-file-input" id="inputGroupFile01"
+                          (change)="selectImg($event)">
+                        <label class="custom-file-label" for="inputGroupFile01">Seleccionar Archivo</label>
+                      </div>
+                    </div>
+
+                    <div *ngIf="(percent | async); let percent$" class="progress mb-2 progress-sm">
+                      <div *ngIf="percent$ !== 100" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" [style.width]="percent$ +'%'"></div>
+                    </div>
+
+                    <input #imageUser type="hidden" name="img" [(ngModel)]="item.img" [value]="img | async">
+
+                    <div class="form-group">
+                      <label for="prce">Precio</label>
+                      <input class="form-control" type="number" id="price" required="" name="ciclo"
+                        [(ngModel)]="item.price" placeholder="Precio">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="category">Categoria</label>
+                      <select class="form-control" id="category" name="category" [(ngModel)]="item.category">
+                        <option *ngFor="let item of (categorys | async)" value="{{item._id}}">{{item.name}}</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="state">Estado</label>
+                      <select class="form-control" id="state" name="state" [(ngModel)]="item.state">
+                        <option>Disponible</option>
+                        <option>Agotado</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="description">Descripcion</label>
+                      <textarea class="form-control" type="text" id="description" required="" name="puntaje"
+                        [(ngModel)]="item.description" placeholder="Descripcion"></textarea>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal" (click)="clean()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addItem(item)">Guardar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>

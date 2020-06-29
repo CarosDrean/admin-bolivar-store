@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "bolivar-store": {
+      "hosting": {
+        "bolivar-store": [
+          "bolivar-store"
+        ]
+      }
+    }
+  }
+}

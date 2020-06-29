@@ -1,0 +1,84 @@
+<app-breadcumb>
+  <div role="title">Lista de categorias de Carreras</div>
+  <div role="list">
+    <ol role="list" class="breadcrumb m-0 p-0">
+      <li class="breadcrumb-item"><a routerLink="dashboard" class="text-muted">Inicio</a></li>
+      <li class="breadcrumb-item text-muted active" aria-current="page">Categoria</li>
+    </ol>
+  </div>
+</app-breadcumb>
+
+<app-table>
+  <div role="btn">
+    <button type="button"
+      class="btn btn-primary"
+      data-toggle="modal"
+      data-target="#form-user"
+      (click)="clean()"
+      style="margin: 20px;">
+      Agregar
+    </button>
+  </div>
+  <div role="table">
+    <table class="table">
+      <thead class="bg-success text-white">
+        <tr>
+          <th>#</th>
+          <th>Nombres</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of (items | async); let i = index" [attr.data-index]="i">
+          <td>{{i}}</td>
+          <td>{{item.name}}</td>
+          <td>
+            <button type="button" class="btn waves-effect waves-light btn-rounded btn-sm btn-success"
+              (click)="edit(item)" data-toggle="modal" data-target="#form-user" style="margin-right: 5px;">
+              Editar
+            </button>
+            <button type="button" (click)="getKeyForDelete(item._id)"
+              class="btn waves-effect waves-light btn-rounded btn-sm btn-danger" [swal]="deleteSwal">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-table>
+
+<swal #deleteSwal title="¿Estas seguro?" text="Los datos no se podran recuperar." icon="question"
+  [showCancelButton]="true" [focusCancel]="true" (cancel)="clean()" (confirm)="deleteItem()">
+</swal>
+
+<div id="form-user" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{{case}} Categoria</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      </div>
+
+      <div class="modal-body">
+
+        <form class="pl-3 pr-3" action="#">
+
+          <div class="form-group">
+            <label for="username">Nombres</label>
+            <input class="form-control" type="text" id="username" required="" name="name" [(ngModel)]="item.name"
+              placeholder="Nombre">
+          </div>
+
+        </form>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light" data-dismiss="modal" (click)="clean()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addItem(item)">Guardar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
