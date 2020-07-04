@@ -41,7 +41,8 @@ export abstract class Componente {
 
   abstract resetItem(): void;
 
-  getKeyForDelete(id: string) {
+  // El aux es para casos excepcionales en donde se necesite un elemento adicional para eliminar el objeto
+  getKeyForDelete(id: string, aux = '') {
     this.idDelete = id;
   }
 

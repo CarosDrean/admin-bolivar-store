@@ -5,5 +5,8 @@ export interface Product {
   description: string;
   state: string;
   category: string;
-  img?: string;
+  visit: number;
+  sale: number;
+  imgUrl?: string;
+  imgRef?: string;
 }

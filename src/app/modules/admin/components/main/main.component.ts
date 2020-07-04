@@ -3,6 +3,9 @@ import * as feather from 'feather-icons';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';
 import { LoginService } from 'src/app/services/login.service';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { SEARCH, SearchAction } from '../../../../store/search/search.reducer';
 
 declare var $: any;
 
@@ -13,8 +16,10 @@ declare var $: any;
 })
 export class MainComponent implements OnInit {
   user: string;
+  search: Observable<string>;
 
-  constructor(private router: Router, private us: UserService, private ls: LoginService) {
+  constructor(private router: Router, private us: UserService, private ls: LoginService, private store: Store<any>) {
+    this.search = store.pipe(select('search'));
     this.getUser();
   }
 
@@ -31,6 +36,11 @@ export class MainComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+  }
+
+  seacrh(event) {
+    const action = new SearchAction(event.target.value.toLowerCase());
+    this.store.dispatch( action );
   }
 
   logOut() {

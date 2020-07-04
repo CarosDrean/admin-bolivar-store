@@ -3,13 +3,14 @@ import { Componente } from 'src/app/api/component';
 import { ProductAction } from 'src/app/store/product/product.action';
 import { ProductSelector } from 'src/app/store/product/product.selector';
 import { Product } from 'src/app/interfaces/product';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { CategoryAction } from 'src/app/store/category/category.action';
 import { CategorySelector } from 'src/app/store/category/category.selector';
 import { Category } from 'src/app/interfaces/category';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { finalize } from 'rxjs/operators';
+import { finalize, filter } from 'rxjs/operators';
+import { SEARCH } from '../../../../store/search/search.reducer';
 
 @Component({
   selector: 'app-product',
@@ -27,14 +28,26 @@ export class ProductComponent extends Componente implements OnInit {
   categorys: Observable<Category[]>;
 
   img: Observable<string>;
-  file: any;
-  path: any;
   percent: Observable<number>;
-  select = false;
+  data: Product[];
+
+  path: string;
+  filter = 'all';
+  temp = [];
+  aux = [];
 
   constructor(private stor: Store<any>, private storage: AngularFireStorage) {
     super(ProductComponent.action, stor);
     this.items = this.stor.pipe(select(this.selector.selectAllEntities));
+    stor.select(SEARCH).subscribe(text => {
+      console.log(text);
+      this.search(text);
+    });
+    this.items.subscribe((data => {
+      this.temp = data;
+      this.aux = data;
+      this.filter = 'all';
+    }));
     this.categorys = stor.pipe(select(this.selectorCategory.selectAllEntities));
   }
 
@@ -49,13 +62,34 @@ export class ProductComponent extends Componente implements OnInit {
     this.stor.dispatch(this.actionCategory.itemsE());
   }
 
-  selectImg(event) {
-    this.select = true;
-    const id = Math.random().toString(36).substring(2);
-    this.file = event.target.files[0];
-    this.path = `imgs/product_${id}_${this.file.name}`;
+  search(val: string) {
+    this.temp = this.aux;
+    if (val !== 'all') {
+      this.temp = this.temp.filter(data => data.name.toLowerCase().indexOf(val) !== -1 || !val);
+    }
+  }
 
-    this.uploadImg(this.path, this.file);
+  updateViewProducts() {
+    const val = this.filter;
+    this.temp = this.aux;
+
+    if (val !== 'all') {
+      this.temp = this.temp.filter(data => data.category._id === val);
+    }
+  }
+
+  reload() {
+    this.percent = of(0);
+    this.img = of('');
+  }
+
+  selectImg(event) {
+    const id = Math.random().toString(36).substring(2);
+    const file = event.target.files[0];
+    const path = `imgs/product_${id}_${file.name}`;
+    this.item.imgRef = path;
+
+    this.uploadImg(path, file);
   }
 
   uploadImg(path, file) {
@@ -66,12 +100,17 @@ export class ProductComponent extends Componente implements OnInit {
       finalize(() => {
         this.img = ref.getDownloadURL().pipe(
           finalize(() => {
-            this.item.img = this.inputImageUser.nativeElement.value;
+            this.item.imgUrl = this.inputImageUser.nativeElement.value;
             console.log(this.img);
           })
         );
       })
     ).subscribe();
+  }
+
+  deleteImg(path: string) {
+    const ref = this.storage.ref(path);
+    ref.delete();
   }
 
   edit(item: any) {
@@ -82,8 +121,19 @@ export class ProductComponent extends Componente implements OnInit {
       this.item.category = item.category._id;
     }
 
-    this.img = of(item.img);
+    this.img = of(item.imgUrl);
     console.log(this.img);
+  }
+
+  deleteItem() {
+    this.deleteImg(this.path);
+    const id = this.idDelete;
+    this.stor.dispatch(ProductComponent.action.deleteA({ id }));
+  }
+
+  getKeyForDelete(id: string, ref: string) {
+    this.path = ref;
+    this.idDelete = id;
   }
 
   resetItem() {
@@ -93,7 +143,10 @@ export class ProductComponent extends Componente implements OnInit {
       description: '',
       state: '',
       category: '',
-      img: ''
+      visit: 0,
+      sale: 0,
+      imgUrl: '',
+      imgRef: ''
     };
     this.img = of('');
   }

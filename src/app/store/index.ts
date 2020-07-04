@@ -2,6 +2,7 @@ import { Params } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 import { reducer as ReducerProduct, PRODUCT_FEATURE_KEY } from './product/product.reducer';
 import { reducer as ReducerCategory, CATEGORY_FEATURE_KEY } from './category/category.reducer';
+import { searchReducer, SEARCH } from './search/search.reducer';
 import { counterReducer as ReducerCount } from './count/counter.reducer';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
@@ -34,6 +35,7 @@ const reducers: ActionReducerMap<any> = {
   router: fromRouter.routerReducer,
   [PRODUCT_FEATURE_KEY]: ReducerProduct,
   [CATEGORY_FEATURE_KEY]: ReducerCategory,
+  [SEARCH]: searchReducer,
   ['count']: ReducerCount
 };
 
