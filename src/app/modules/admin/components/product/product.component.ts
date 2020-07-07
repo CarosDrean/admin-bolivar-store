@@ -9,7 +9,7 @@ import { CategoryAction } from 'src/app/store/category/category.action';
 import { CategorySelector } from 'src/app/store/category/category.selector';
 import { Category } from 'src/app/interfaces/category';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { finalize, filter } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { SEARCH } from '../../../../store/search/search.reducer';
 
 @Component({
