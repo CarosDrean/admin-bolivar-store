@@ -12,4 +12,7 @@ export class DataFunctions {
   public static Category = new Functions ('category', 'categorys', '', '', 'createCategory', 'updateCategory', 'deleteCategory');
   public static CategoryFields = ['_id', 'name'];
 
+  public static Bussines = new Functions ('', 'bussiness', '', '', 'createBussines', 'updateBussines', '');
+  public static BussinesFields = ['_id', 'mision', 'address', 'tel', 'email'];
+
 }

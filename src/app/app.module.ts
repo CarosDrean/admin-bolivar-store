@@ -25,6 +25,7 @@ import { ProductService } from './services/product.service';
 import { CategoryService } from './services/category.service';
 
 // import { NotyfModule } from 'ng-notyf';
+import { BussinesService } from './services/bussines.service';
 
 
 @NgModule({
@@ -59,6 +60,7 @@ import { CategoryService } from './services/category.service';
   providers: [
     ProductService,
     CategoryService,
+    BussinesService,
     UserService,
     {
       provide: HTTP_INTERCEPTORS,

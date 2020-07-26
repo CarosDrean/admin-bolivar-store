@@ -2,6 +2,7 @@ import { Params } from '@angular/router';
 import * as fromRouter from '@ngrx/router-store';
 import { reducer as ReducerProduct, PRODUCT_FEATURE_KEY } from './product/product.reducer';
 import { reducer as ReducerCategory, CATEGORY_FEATURE_KEY } from './category/category.reducer';
+import { reducer as ReducerBussines, BUSSINES_FEATURE_KEY } from './bussines/bussines.reducer';
 import { searchReducer, SEARCH } from './search/search.reducer';
 import { counterReducer as ReducerCount } from './count/counter.reducer';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
@@ -9,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { InjectionToken } from '@angular/core';
 import { ProductEffects } from './product/product.effect';
 import { CategoryEffects } from './category/category.effect';
+import { BussinesEffects } from './bussines/bussines.effect';
 
 export interface RouterStateUrl {
   url: string;
@@ -35,6 +37,7 @@ const reducers: ActionReducerMap<any> = {
   router: fromRouter.routerReducer,
   [PRODUCT_FEATURE_KEY]: ReducerProduct,
   [CATEGORY_FEATURE_KEY]: ReducerCategory,
+  [BUSSINES_FEATURE_KEY]: ReducerBussines,
   [SEARCH]: searchReducer,
   ['count']: ReducerCount
 };
@@ -54,6 +57,7 @@ export const REDUCER_TOKEN = new InjectionToken<ActionReducerMap<any>>(
 
 export const appEffects = [
   ProductEffects,
-  CategoryEffects
+  CategoryEffects,
+  BussinesEffects
 ];
 
