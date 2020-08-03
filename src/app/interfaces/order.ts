@@ -3,5 +3,6 @@ export interface Order {
   state: string;
   priceTotal: number;
   date: string;
+  tel: string;
   products: [string];
 }

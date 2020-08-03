@@ -1,1 +1,85 @@
-<p>order works!</p>
+<app-breadcumb>
+  <div role="title">Lista de Pedidos</div>
+  <div role="list">
+    <ol role="list" class="breadcrumb m-0 p-0">
+      <li class="breadcrumb-item">
+        <a routerLink="dashboard" class="text-muted">Inicio</a>
+      </li>
+      <li class="breadcrumb-item text-muted active" aria-current="page">
+        Pedidos
+      </li>
+    </ol>
+  </div>
+</app-breadcumb>
+
+<app-table>
+  <div role="btn"></div>
+  <div role="table">
+    <table class="table">
+      <thead class="bg-success text-white">
+        <tr>
+          <th>#</th>
+          <th>Telefono</th>
+          <th>Estado</th>
+          <th>Fecha</th>
+          <th>Precio Total</th>
+          <th>Productos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let item of items | async; let i = index"
+          [attr.data-index]="i"
+        >
+          <td>{{ i }}</td>
+          <td>{{ item.tel }}</td>
+          <td>{{ item.state }}</td>
+          <td>{{ item.date }}</td>
+          <td>{{ item.priceTotal }}</td>
+          <td>
+            <button
+              type="button"
+              class="btn waves-effect waves-light btn-rounded btn-sm btn-success"
+              data-toggle="modal"
+              data-target="#form-user"
+              style="margin-right: 5px;"
+            >
+              Ver Productos
+            </button>
+          </td>
+          <td>
+            <button
+              type="button"
+              class="btn waves-effect waves-light btn-rounded btn-sm btn-success"
+              data-toggle="modal"
+              data-target="#form-user"
+              style="margin-right: 5px;"
+            >
+              Enviado
+            </button>
+            <button
+              type="button"
+              (click)="getKeyForDelete(item._id)"
+              class="btn waves-effect waves-light btn-rounded btn-sm btn-danger"
+              [swal]="deleteSwal"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</app-table>
+
+<swal
+  #deleteSwal
+  title="¿Estas seguro?"
+  text="Los datos no se podran recuperar."
+  icon="question"
+  [showCancelButton]="true"
+  [focusCancel]="true"
+  (cancel)="clean()"
+  (confirm)="deleteItem()"
+>
+</swal>
