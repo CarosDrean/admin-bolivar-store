@@ -9,6 +9,7 @@ import { UsersComponent } from './components/users/users.component';
 import { SharedModule } from 'src/app/shared/shared/shared.module';
 import { ProductComponent } from './components/product/product.component';
 import { CategoryComponent } from './components/category/category.component';
+import { OrderComponent } from './components/order/order.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CategoryComponent } from './components/category/category.component';
     DashboardComponent,
     UsersComponent,
     ProductComponent,
-    CategoryComponent
+    CategoryComponent,
+    OrderComponent
   ],
   imports: [
     CommonModule,
