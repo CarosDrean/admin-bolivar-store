@@ -1,8 +1,15 @@
+import { ProductOrder } from './product';
+import { Shipping } from './shipping';
+
 export interface Order {
   _id?: string;
   state: string;
   priceTotal: number;
   date: string;
+  city: string;
+  district: string;
+  address: string;
   tel: string;
-  products: [string];
+  shipping?: Shipping;
+  products?: ProductOrder[];
 }

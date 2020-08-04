@@ -45,10 +45,48 @@ export class Helpers {
     }
   }
 
-  private inputBuilder(data: {}) {
+  private inputBuilder(data: {}): any {
+    console.log(data);
     let result = '';
+    let corch = false;
+    let count = 0;
     new Map(Object.entries(data)).forEach((value, key) => {
-      result += `${key}: ${this.getType(value)}, \n`;
+      if (typeof value === 'object') {
+        corch = false;
+        let resultin = '';
+        new Map(Object.entries(value)).forEach((val, ke) => {
+          if (typeof val === 'object') {
+            // esto solo ejecutar una vez
+            let resultina = '';
+            if (count === 0) {
+              new Map(Object.entries(value)).forEach((values, keys) => {
+                if (typeof values === 'object') {
+                  corch = true;
+                  let res = '';
+                  new Map(Object.entries(values)).forEach((v, k) => {
+                    res += `${k}: ${this.getType(v)}, \n`;
+                  });
+                  console.log(res);
+                  resultina += `{${res}}, \n`;
+                } else {
+                  resultina += `${keys}: ${this.getType(values)}, \n`;
+                }
+              });
+            }
+            count++;
+            resultin += `${resultina}, \n`;
+          } else {
+            resultin += `${ke}: ${this.getType(val)}, \n`;
+          }
+        });
+        if (corch) {
+          result += `${key}: [${resultin}], \n`;
+        } else {
+          result += `${key}: {${resultin}}, \n`;
+        }
+      } else {
+        result += `${key}: ${this.getType(value)}, \n`;
+      }
     });
     return result;
   }

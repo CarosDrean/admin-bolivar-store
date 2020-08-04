@@ -10,3 +10,17 @@ export interface Product {
   imgUrl?: string;
   imgRef?: string;
 }
+
+export interface ProductOrder {
+  _id?: string;
+  count: number;
+}
+
+export interface ProductOrderS {
+  _id?: string;
+  name: string;
+  price: number;
+  count: number;
+  priceTotal: number;
+}
+

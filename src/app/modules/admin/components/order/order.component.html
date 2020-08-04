@@ -24,6 +24,7 @@
           <th>Fecha</th>
           <th>Precio Total</th>
           <th>Productos</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -35,7 +36,7 @@
           <td>{{ item.tel }}</td>
           <td>{{ item.state }}</td>
           <td>{{ item.date }}</td>
-          <td>{{ item.priceTotal }}</td>
+          <td>${{ item.priceTotal }}</td>
           <td>
             <button
               type="button"
@@ -43,6 +44,7 @@
               data-toggle="modal"
               data-target="#form-user"
               style="margin-right: 5px;"
+              (click)="getProducts(item)"
             >
               Ver Productos
             </button>
@@ -51,9 +53,8 @@
             <button
               type="button"
               class="btn waves-effect waves-light btn-rounded btn-sm btn-success"
-              data-toggle="modal"
-              data-target="#form-user"
               style="margin-right: 5px;"
+              (click)="sendin(item)"
             >
               Enviado
             </button>
@@ -83,3 +84,69 @@
   (confirm)="deleteItem()"
 >
 </swal>
+
+<div
+  id="form-user"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Lista de productos</h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="product_image_area">
+          <div class="container">
+            <app-table>
+              <div role="btn"></div>
+              <div role="table">
+                <table class="table">
+                  <thead class="bg-success text-white">
+                    <tr>
+                      <th>#</th>
+                      <th>Producto</th>
+                      <th>Cantidad</th>
+                      <th>Precio</th>
+                      <th>Precio Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      *ngFor="let item of products; let i = index"
+                      [attr.data-index]="i"
+                    >
+                      <td>{{ i }}</td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.count }}</td>
+                      <td>S/.{{ item.price }}</td>
+                      <td>${{ item.priceTotal }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </app-table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <!--<button type="button" class="btn btn-light" data-dismiss="modal" (click)="clean()">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addItem(item)">Guardar</button>-->
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
