@@ -1,19 +1,11 @@
 {
-  "hosting": [
-    {
-      "target": "bolivar-store",
-      "public": "dist/bolivar-store",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    }
-  ]
+  "hosting": {
+    "site": "admin-bolivar",
+    "public": "dist/bolivar-store",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
 }
