@@ -83,6 +83,7 @@ export class OrderComponent extends Componente implements OnInit {
 
   resetItem() {
     this.item = {
+      idUser: '',
       state: '',
       priceTotal: 0,
       date: '',

@@ -3,6 +3,7 @@ import { Shipping } from './shipping';
 
 export interface Order {
   _id?: string;
+  idUser: string;
   state: string;
   priceTotal: number;
   date: string;

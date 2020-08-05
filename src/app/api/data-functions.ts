@@ -16,7 +16,7 @@ export class DataFunctions {
   public static BussinesFields = ['_id', 'mision', 'address', 'tel', 'email'];
 
   public static Order = new Functions ('order', 'orders', '', '', 'createOrder', 'updateOrder', 'deleteOrder');
-  public static OrderFields = ['_id', 'state', 'priceTotal', 'date', 'city', 'district', 'address', 'tel',
+  public static OrderFields = ['_id', 'idUser', 'state', 'priceTotal', 'date', 'city', 'district', 'address', 'tel',
     'shipping{_id, description, type, cost}',
     'products{_id, count}'];
 
